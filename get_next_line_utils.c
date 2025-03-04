@@ -6,7 +6,7 @@
 /*   By: plantsov <plantsov@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 15:43:38 by plantsov          #+#    #+#             */
-/*   Updated: 2025/03/04 15:43:44 by plantsov         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:39:45 by plantsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*ft_strdup(const char *s)
 	size_t	size;
 	char	*str;
 
+	if (!s)
+		return (NULL);
 	size = ft_strlen(s) + 1;
 	str = (char *)malloc(size);
 	if (str == NULL)
@@ -69,6 +71,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr[i] = '\0';
 	return (ptr);
 }
+
 char	*ft_strchr(const char *s, int c)
 {
 	char	*str;

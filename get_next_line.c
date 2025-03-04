@@ -6,7 +6,7 @@
 /*   By: plantsov <plantsov@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:50:35 by plantsov          #+#    #+#             */
-/*   Updated: 2025/03/04 16:53:06 by plantsov         ###   ########.fr       */
+/*   Updated: 2025/03/04 21:14:45 by plantsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int	read_buffer(int fd, char **text_buffer, char *buffer)
 	{
 		buffer[read_size] = '\0';
 		if (!*text_buffer)
+		{
 			*text_buffer = ft_strdup(buffer);
+		}
 		else
 		{
 			temp = ft_strjoin(*text_buffer, buffer);
@@ -40,13 +42,12 @@ static char	*upd_buffer(char *buffer, int ln_len)
 {
 	char	*temp;
 
+	if (!buffer)
+		return (NULL);
 	temp = ft_strdup(buffer + ln_len + 1);
 	free(buffer);
-	if (!*temp)
-	{
-		free(temp);
+	if (!temp)
 		return (NULL);
-	}
 	return (temp);
 }
 
@@ -55,6 +56,8 @@ static char	*pull_line(char *buffer, int ln_len)
 	char	*ln;
 	int		i;
 
+	if (!buffer)
+		return (NULL);
 	ln = malloc((ln_len + 2) * sizeof(char));
 	if (!ln)
 		return (NULL);
@@ -73,6 +76,8 @@ static char	*get_line(char **text_buffer)
 	char	*ln;
 	int		i;
 
+	if (!*text_buffer)
+		return (NULL);
 	i = 0;
 	while ((*text_buffer)[i] && (*text_buffer)[i] != '\n')
 		i++;
@@ -80,6 +85,11 @@ static char	*get_line(char **text_buffer)
 	{
 		ln = pull_line(*text_buffer, i);
 		*text_buffer = upd_buffer(*text_buffer, i);
+		if (*text_buffer && (*text_buffer)[0] == '\0')
+		{
+			free(*text_buffer);
+			*text_buffer = NULL;
+		}
 	}
 	else
 	{
